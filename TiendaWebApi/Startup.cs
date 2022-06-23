@@ -30,13 +30,15 @@ namespace TiendaWebApi
 
             services.AddControllers();
 
-            //My Services
+            //DbContext
             services.AddDbContext<DataContext>(x => {
                 x.UseLazyLoadingProxies();
                 x.UseSqlServer(Configuration.GetConnectionString("TiendaDBConnection"));
             });
 
-            //services.AddScoped(IProductRepository, IApiRepository, ProductsRepository);
+            // Repositories
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
 
             services.AddSwaggerGen(c =>
             {
