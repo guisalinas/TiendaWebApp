@@ -28,7 +28,7 @@ namespace TiendaWebApi.Models.Data.Repository
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            var product = await pContext.Products.FirstOrDefaultAsync(u => u.Id == id);
+            var product = await pContext.Products.SingleAsync(u => u.Id == id);
             return product;
         }
 
@@ -44,6 +44,7 @@ namespace TiendaWebApi.Models.Data.Repository
             return products;
         }
 
+ 
         public async Task<bool> SaveAll()
         {
             return await pContext.SaveChangesAsync() > 0;

@@ -60,3 +60,9 @@ C:\Users\guill\source\repos\TiendaWebApp\TiendaWebApi\obj\Debug\net5.0\refint\Ti
 C:\Users\guill\source\repos\TiendaWebApp\TiendaWebApi\obj\Debug\net5.0\TiendaWebApi.pdb
 C:\Users\guill\source\repos\TiendaWebApp\TiendaWebApi\obj\Debug\net5.0\TiendaWebApi.genruntimeconfig.cache
 C:\Users\guill\source\repos\TiendaWebApp\TiendaWebApi\obj\Debug\net5.0\ref\TiendaWebApi.dll
+C:\Users\guill\source\repos\TiendaWebApp\TiendaWebApi\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\guill\source\repos\TiendaWebApp\TiendaWebApi\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\guill\source\repos\TiendaWebApp\TiendaWebApi\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\guill\source\repos\TiendaWebApp\TiendaWebApi\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
+C:\Users\guill\source\repos\TiendaWebApp\TiendaWebApi\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Users\guill\source\repos\TiendaWebApp\TiendaWebApi\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll

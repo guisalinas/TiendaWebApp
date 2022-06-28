@@ -25,9 +25,9 @@ namespace TiendaWebApi.Models.Data.Repository
             pContext.Remove(entity);
         }
 
-        public async Task<Person> GetPersonByDniAsync(string dni)
+        public async Task<Person> GetPersonByIdentifierAsync(string identifier)
         {
-            var person = await pContext.Persons.FirstOrDefaultAsync(p => p.Dni == dni);
+            var person = await pContext.Persons.FirstOrDefaultAsync(p => p.Identifier == identifier);
             return person;
         }
 

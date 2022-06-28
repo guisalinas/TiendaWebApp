@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TiendaWebApi.Mapper;
 using TiendaWebApi.Models.Data;
 using TiendaWebApi.Models.Data.Interfaces;
 using TiendaWebApi.Models.Data.Repository;
@@ -30,7 +31,7 @@ namespace TiendaWebApi
 
             services.AddControllers();
 
-            //DbContext
+            // DbContext
             services.AddDbContext<DataContext>(x => {
                 x.UseLazyLoadingProxies();
                 x.UseSqlServer(Configuration.GetConnectionString("TiendaDBConnection"));
@@ -39,6 +40,11 @@ namespace TiendaWebApi
             // Repositories
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
+
+            // AutoMapper
+            services.AddAutoMapper(typeof(MapperProfile).Assembly);
+
+
 
             services.AddSwaggerGen(c =>
             {

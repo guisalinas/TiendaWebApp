@@ -9,7 +9,7 @@ namespace TiendaWebApi.Models.Data.Interfaces
  
         Task<IEnumerable<Person>> GetPersonsAsync();
         Task<Person> GetPersonByIdAsync(int id);
-        Task<Person> GetPersonByDniAsync(string id);
+        Task<Person> GetPersonByIdentifierAsync(string id);
         Task<Person> GetPersonByNameAsync(string name);
     }
 }
