@@ -9,8 +9,7 @@ namespace TiendaWebApi.Models.Entity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public decimal PurchasePrice { get; set; }
-        public DateTime SaleDate { get; set; }
+        public DateTime PurchaseDate { get; set; }
 
         // Foreign Keys
 
@@ -19,9 +18,6 @@ namespace TiendaWebApi.Models.Entity
         [ForeignKey("ProviderId")]
         public virtual Provider Provider { get; set; }
         
-        public int PurchaseDetailId { get; set; }
-
-        [ForeignKey("PurchaseDetailId")]
         public virtual PurchaseDetail PurchaseDetail { get; set; }
 
     }

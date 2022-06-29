@@ -13,11 +13,11 @@ namespace TiendaWebApi.Models.Entity
 
         [StringLength(40)]
         public string Name { get; set; } = string.Empty;
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         public int Size { get; set; }
        
         [StringLength(50)]
-        public string Description { get; set; } = string.Empty ;
+        public string Description { get; set; } = string.Empty ; // color, print, etc
         public int Stock { get; set; }
         public DateTime DischargeDate { get; set; }
 

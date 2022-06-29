@@ -10,7 +10,7 @@ namespace TiendaWebApi.Models.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Description { get; set; }= string.Empty;
-        public int Total { get; set; }
+        public double Total { get; set; }
 
         //Foreign Key
         public int PurchaseId { get; set; }
@@ -18,7 +18,6 @@ namespace TiendaWebApi.Models.Entity
         [ForeignKey("PurchaseId")]
         public virtual Purchase Purchase { get; set; }
 
-        public virtual IEnumerable<Product> Products { get; set; }
         public virtual IEnumerable<ProductInPurchaseDetail> PInPurchaseDetailList { get; set; }
 
     }

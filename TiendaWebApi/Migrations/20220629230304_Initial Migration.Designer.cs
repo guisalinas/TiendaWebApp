@@ -10,7 +10,7 @@ using TiendaWebApi.Models.Data;
 namespace TiendaWebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220628233255_Initial Migration")]
+    [Migration("20220629230304_Initial Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,6 +78,29 @@ namespace TiendaWebApi.Migrations
                     b.ToTable("Contacts");
                 });
 
+            modelBuilder.Entity("TiendaWebApi.Models.Entity.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CustomerTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerTypeId");
+
+                    b.HasIndex("PersonId")
+                        .IsUnique();
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("TiendaWebApi.Models.Entity.CustomerType", b =>
                 {
                     b.Property<int>("Id")
@@ -127,10 +150,6 @@ namespace TiendaWebApi.Migrations
                     b.Property<DateTime>("DischargeDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Identifier")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -138,8 +157,6 @@ namespace TiendaWebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Persons");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Person");
                 });
 
             modelBuilder.Entity("TiendaWebApi.Models.Entity.Product", b =>
@@ -160,16 +177,10 @@ namespace TiendaWebApi.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int>("ProductTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PurchaseDetailId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SaleDetailId")
                         .HasColumnType("int");
 
                     b.Property<int>("Size")
@@ -181,10 +192,6 @@ namespace TiendaWebApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProductTypeId");
-
-                    b.HasIndex("PurchaseDetailId");
-
-                    b.HasIndex("SaleDetailId");
 
                     b.ToTable("Products");
                 });
@@ -235,6 +242,24 @@ namespace TiendaWebApi.Migrations
                     b.ToTable("ProductTypes");
                 });
 
+            modelBuilder.Entity("TiendaWebApi.Models.Entity.Provider", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId")
+                        .IsUnique();
+
+                    b.ToTable("Providers");
+                });
+
             modelBuilder.Entity("TiendaWebApi.Models.Entity.Purchase", b =>
                 {
                     b.Property<int>("Id")
@@ -245,20 +270,12 @@ namespace TiendaWebApi.Migrations
                     b.Property<int>("ProviderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PurchaseDetailId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("PurchasePrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("SaleDate")
+                    b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProviderId");
-
-                    b.HasIndex("PurchaseDetailId");
 
                     b.ToTable("Purchases");
                 });
@@ -276,12 +293,13 @@ namespace TiendaWebApi.Migrations
                     b.Property<int>("PurchaseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Total")
-                        .HasColumnType("int");
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PurchaseId");
+                    b.HasIndex("PurchaseId")
+                        .IsUnique();
 
                     b.ToTable("PurchaseDetails");
                 });
@@ -296,13 +314,13 @@ namespace TiendaWebApi.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PayModeId")
+                    b.Property<int?>("PayModeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("SaleDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SaleDetailId")
+                    b.Property<int?>("SaleDetailId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -312,7 +330,8 @@ namespace TiendaWebApi.Migrations
                     b.HasIndex("PayModeId");
 
                     b.HasIndex("SaleDetailId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[SaleDetailId] IS NOT NULL");
 
                     b.ToTable("Sales");
                 });
@@ -324,11 +343,11 @@ namespace TiendaWebApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AmountDue")
-                        .HasColumnType("int");
+                    b.Property<double>("AmountDue")
+                        .HasColumnType("float");
 
-                    b.Property<int>("Discount")
-                        .HasColumnType("int");
+                    b.Property<double>("Discount")
+                        .HasColumnType("float");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -336,31 +355,12 @@ namespace TiendaWebApi.Migrations
                     b.Property<int>("SaleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Total")
-                        .HasColumnType("int");
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
                     b.ToTable("SaleDetails");
-                });
-
-            modelBuilder.Entity("TiendaWebApi.Models.Entity.Customer", b =>
-                {
-                    b.HasBaseType("TiendaWebApi.Models.Entity.Person");
-
-                    b.Property<int>("CustomerTypeId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("CustomerTypeId");
-
-                    b.HasDiscriminator().HasValue("Customer");
-                });
-
-            modelBuilder.Entity("TiendaWebApi.Models.Entity.Provider", b =>
-                {
-                    b.HasBaseType("TiendaWebApi.Models.Entity.Person");
-
-                    b.HasDiscriminator().HasValue("Provider");
                 });
 
             modelBuilder.Entity("TiendaWebApi.Models.Entity.Address", b =>
@@ -385,6 +385,23 @@ namespace TiendaWebApi.Migrations
                     b.Navigation("Person");
                 });
 
+            modelBuilder.Entity("TiendaWebApi.Models.Entity.Customer", b =>
+                {
+                    b.HasOne("TiendaWebApi.Models.Entity.CustomerType", "CustomerType")
+                        .WithMany("CustomersList")
+                        .HasForeignKey("CustomerTypeId");
+
+                    b.HasOne("TiendaWebApi.Models.Entity.Person", "Person")
+                        .WithOne("Customer")
+                        .HasForeignKey("TiendaWebApi.Models.Entity.Customer", "PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CustomerType");
+
+                    b.Navigation("Person");
+                });
+
             modelBuilder.Entity("TiendaWebApi.Models.Entity.Product", b =>
                 {
                     b.HasOne("TiendaWebApi.Models.Entity.ProductType", "ProductType")
@@ -392,14 +409,6 @@ namespace TiendaWebApi.Migrations
                         .HasForeignKey("ProductTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("TiendaWebApi.Models.Entity.PurchaseDetail", null)
-                        .WithMany("Products")
-                        .HasForeignKey("PurchaseDetailId");
-
-                    b.HasOne("TiendaWebApi.Models.Entity.SaleDetail", null)
-                        .WithMany("Products")
-                        .HasForeignKey("SaleDetailId");
 
                     b.Navigation("ProductType");
                 });
@@ -442,6 +451,17 @@ namespace TiendaWebApi.Migrations
                     b.Navigation("SaleDetail");
                 });
 
+            modelBuilder.Entity("TiendaWebApi.Models.Entity.Provider", b =>
+                {
+                    b.HasOne("TiendaWebApi.Models.Entity.Person", "Person")
+                        .WithOne("Provider")
+                        .HasForeignKey("TiendaWebApi.Models.Entity.Provider", "PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
+                });
+
             modelBuilder.Entity("TiendaWebApi.Models.Entity.Purchase", b =>
                 {
                     b.HasOne("TiendaWebApi.Models.Entity.Provider", "Provider")
@@ -450,22 +470,14 @@ namespace TiendaWebApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TiendaWebApi.Models.Entity.PurchaseDetail", "PurchaseDetail")
-                        .WithMany()
-                        .HasForeignKey("PurchaseDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Provider");
-
-                    b.Navigation("PurchaseDetail");
                 });
 
             modelBuilder.Entity("TiendaWebApi.Models.Entity.PurchaseDetail", b =>
                 {
                     b.HasOne("TiendaWebApi.Models.Entity.Purchase", "Purchase")
-                        .WithMany()
-                        .HasForeignKey("PurchaseId")
+                        .WithOne("PurchaseDetail")
+                        .HasForeignKey("TiendaWebApi.Models.Entity.PurchaseDetail", "PurchaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -482,15 +494,11 @@ namespace TiendaWebApi.Migrations
 
                     b.HasOne("TiendaWebApi.Models.Entity.PayMode", "PayMode")
                         .WithMany("SalesList")
-                        .HasForeignKey("PayModeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PayModeId");
 
                     b.HasOne("TiendaWebApi.Models.Entity.SaleDetail", "SaleDetail")
                         .WithOne("Sale")
-                        .HasForeignKey("TiendaWebApi.Models.Entity.Sale", "SaleDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TiendaWebApi.Models.Entity.Sale", "SaleDetailId");
 
                     b.Navigation("Customer");
 
@@ -499,20 +507,14 @@ namespace TiendaWebApi.Migrations
                     b.Navigation("SaleDetail");
                 });
 
-            modelBuilder.Entity("TiendaWebApi.Models.Entity.Customer", b =>
-                {
-                    b.HasOne("TiendaWebApi.Models.Entity.CustomerType", "CustomerType")
-                        .WithMany("CustomersList")
-                        .HasForeignKey("CustomerTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CustomerType");
-                });
-
             modelBuilder.Entity("TiendaWebApi.Models.Entity.Contact", b =>
                 {
                     b.Navigation("AddressesList");
+                });
+
+            modelBuilder.Entity("TiendaWebApi.Models.Entity.Customer", b =>
+                {
+                    b.Navigation("SalesList");
                 });
 
             modelBuilder.Entity("TiendaWebApi.Models.Entity.CustomerType", b =>
@@ -528,6 +530,10 @@ namespace TiendaWebApi.Migrations
             modelBuilder.Entity("TiendaWebApi.Models.Entity.Person", b =>
                 {
                     b.Navigation("ContactsList");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Provider");
                 });
 
             modelBuilder.Entity("TiendaWebApi.Models.Entity.Product", b =>
@@ -542,30 +548,26 @@ namespace TiendaWebApi.Migrations
                     b.Navigation("ProductsList");
                 });
 
+            modelBuilder.Entity("TiendaWebApi.Models.Entity.Provider", b =>
+                {
+                    b.Navigation("PurchasesList");
+                });
+
+            modelBuilder.Entity("TiendaWebApi.Models.Entity.Purchase", b =>
+                {
+                    b.Navigation("PurchaseDetail");
+                });
+
             modelBuilder.Entity("TiendaWebApi.Models.Entity.PurchaseDetail", b =>
                 {
                     b.Navigation("PInPurchaseDetailList");
-
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("TiendaWebApi.Models.Entity.SaleDetail", b =>
                 {
                     b.Navigation("PInSaleDetailList");
 
-                    b.Navigation("Products");
-
                     b.Navigation("Sale");
-                });
-
-            modelBuilder.Entity("TiendaWebApi.Models.Entity.Customer", b =>
-                {
-                    b.Navigation("SalesList");
-                });
-
-            modelBuilder.Entity("TiendaWebApi.Models.Entity.Provider", b =>
-                {
-                    b.Navigation("PurchasesList");
                 });
 #pragma warning restore 612, 618
         }

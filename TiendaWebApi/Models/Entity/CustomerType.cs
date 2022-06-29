@@ -8,14 +8,12 @@ namespace TiendaWebApi.Models.Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
         public int Id { get; set; }
 
         [StringLength(50)]
         public string Description { get; set; } = string.Empty;
 
-        // Foreign Keys
-
+        // Foreign Key
         public virtual IEnumerable<Customer> CustomersList { get; set; }
 
     }

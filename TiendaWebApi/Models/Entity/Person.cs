@@ -22,13 +22,9 @@ namespace TiendaWebApi.Models.Entity
         public DateTime DischargeDate { get; set; }     
 
         // Foreign Keys
+        public virtual Customer Customer{ get; set; }
 
-        //public int CustomerId { get; set; }
-        /*public Customer Customer{ get; set; }
-
-
-        //public int ProviderId { get; set; }
-        public Provider Provider { get; set; }*/
+        public virtual Provider Provider { get; set; }
 
         public virtual IEnumerable<Contact> ContactsList { get; set; }
     }

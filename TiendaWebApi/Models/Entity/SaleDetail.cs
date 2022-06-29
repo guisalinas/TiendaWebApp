@@ -12,9 +12,9 @@ namespace TiendaWebApi.Models.Entity
         public int Id { get; set; }
         
         public int Quantity { get; set; }
-        public int Discount { get; set; } 
-        public int Total { get; set; }
-        public int AmountDue { get; set; }
+        public double Discount { get; set; } 
+        public double Total { get; set; }
+        public double AmountDue { get; set; }
 
 
         // Foreign Keys
@@ -22,7 +22,6 @@ namespace TiendaWebApi.Models.Entity
         public int SaleId { get; set; }
         public virtual Sale Sale { get; set; }
 
-        public virtual IEnumerable<Product> Products { get; set; }
         public virtual IEnumerable<ProductInSaleDetail> PInSaleDetailList { get; set; }
 
     }

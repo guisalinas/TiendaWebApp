@@ -29,6 +29,7 @@ namespace TiendaWebApi.Models.Data
         // Api Fluent
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // many to many
             modelBuilder.Entity<ProductInPurchaseDetail>().HasKey(pp => new { pp.ProductId, pp.PurchaseDetailId }); // prevent repetitions
 
             modelBuilder.Entity<ProductInPurchaseDetail>()
@@ -37,23 +38,35 @@ namespace TiendaWebApi.Models.Data
                 .HasForeignKey(p => p.ProductId);
            
             modelBuilder.Entity<ProductInPurchaseDetail>()
-              .HasOne(pd => pd.PurchaseDetail)
-              .WithMany(pd => pd.PInPurchaseDetailList)
-              .HasForeignKey(pd => pd.PurchaseDetailId);
-
+              .HasOne(p => p.PurchaseDetail)
+              .WithMany(p => p.PInPurchaseDetailList)
+              .HasForeignKey(p => p.PurchaseDetailId);
 
             modelBuilder.Entity<ProductInSaleDetail>().HasKey(ps => new { ps.ProductId, ps.SaleDetailId });
             
             modelBuilder.Entity<ProductInSaleDetail>()
-                .HasOne(s => s.Product)
-                .WithMany(s => s.PInSaleDetailList)
-                .HasForeignKey(s => s.ProductId);
+                .HasOne(p => p.Product)
+                .WithMany(p => p.PInSaleDetailList)
+                .HasForeignKey(p => p.ProductId);
 
             modelBuilder.Entity<ProductInSaleDetail>()
-                .HasOne(sd => sd.SaleDetail)
-                .WithMany(sd => sd.PInSaleDetailList)
-                .HasForeignKey(sd => sd.SaleDetailId);
+                .HasOne(p => p.SaleDetail)
+                .WithMany(p => p.PInSaleDetailList)
+                .HasForeignKey(p => p.SaleDetailId);
 
+
+            // one to one
+
+            modelBuilder.Entity<Person>()
+               .HasOne(b => b.Customer)
+               .WithOne(i => i.Person)
+               .HasForeignKey<Customer>(b => b.PersonId);
+
+            modelBuilder.Entity<Person>()
+               .HasOne(b => b.Provider)
+               .WithOne(i => i.Person)
+               .HasForeignKey<Provider>(b => b.PersonId);
+            
         }
 
     }
